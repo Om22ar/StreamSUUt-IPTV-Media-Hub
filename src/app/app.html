@@ -1,0 +1,67 @@
+<div class="min-h-screen bg-[#050507] text-slate-100 font-sans selection:bg-indigo-500 selection:text-white flex flex-col relative overflow-x-hidden">
+
+  <!-- Immersive Background Atmospheric Glows -->
+  <div class="fixed -top-[100px] -left-[100px] w-[500px] h-[500px] bg-indigo-900/30 rounded-full blur-[120px] pointer-events-none z-0"></div>
+  <div class="fixed -bottom-[100px] -right-[100px] w-[500px] h-[500px] bg-purple-900/30 rounded-full blur-[120px] pointer-events-none z-0"></div>
+
+  <!-- Top Glass Header -->
+  <app-top-header (openAiDrawer)="showAiDrawer.set(true)" />
+
+  <!-- Main Workspace Canvas -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 py-6 z-10 space-y-6 pb-28">
+
+    <!-- Active Stream Media Player Deck -->
+    @if (activeTarget()) {
+      <div class="w-full space-y-3 animate-fade-in">
+        <app-stream-player
+          [target]="activeTarget()"
+          [onClose]="closePlayer.bind(this)"
+        />
+      </div>
+    }
+
+    <!-- Dynamic Screen Routing based on activeTab signal -->
+    @switch (activeTab()) {
+      @case ('local') {
+        <app-local-cinema />
+      }
+      @case ('channels') {
+        @if (configService.channelsEnabled()) {
+          <app-channels-view (playTarget)="onPlayTarget($event)" />
+        }
+      }
+      @case ('movies') {
+        @if (configService.moviesEnabled()) {
+          <app-movies-view (playTarget)="onPlayTarget($event)" />
+        }
+      }
+      @case ('anime') {
+        @if (configService.animeEnabled()) {
+          <app-anime-view (playTarget)="onPlayTarget($event)" />
+        }
+      }
+      @case ('favorites') {
+        <app-favorites-view (playTarget)="onPlayTarget($event)" />
+      }
+      @case ('admin') {
+        <app-admin-console />
+      }
+    }
+
+  </main>
+
+  <!-- Dynamic Bottom Glass Navigation Bar -->
+  <app-bottom-nav
+    [activeTab]="activeTab()"
+    (tabChange)="onTabChange($event)"
+  />
+
+  <!-- Global Interstitial Ad Modal Simulator -->
+  <app-ad-interstitial />
+
+  <!-- AI Assistant Drawer Modal -->
+  @if (showAiDrawer()) {
+    <app-ai-assistant (closeDrawer)="showAiDrawer.set(false)" />
+  }
+
+</div>

@@ -1,0 +1,6 @@
+{
+  "name": "StreamSUUt IPTV & Media Hub",
+  "description": "Dynamic IPTV, Movies, and Anime streaming platform with HLS/MP4 video player, dynamic local database endpoints, ad manager, and glassmorphism UI.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
